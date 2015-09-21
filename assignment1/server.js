@@ -1,34 +1,48 @@
-var http = require('http'); /* expose http object to var http */
-var url = require('url'); /* expose url object to var url */
+var http = require('http');
 var querystring = require('querystring');
+var url = require('url');
 
+var callback = function(req, res) {
 
-/*
- * the callback function triggered when the server recieves a request
- * */
+	var query = url.parse(req.url).query;
+	var route = req.url.split("?")[0];
+	var params = querystring.parse(query);
 
-var callback = function (req, res) { // req -> request object; res -> response object
+	console.log(req.url);
+	console.log(route);
+	console.log(params);
 
-  var query = url.parse(req.url).query;
-  var route = req.url.split("?")[0];
-  var params = querystring.parse(query);
+	if (route === "/getFibonacci") {
 
-  console.log(req.url);
-  console.log(route);
-  console.log(params);
+		var num = parseFloat(params.n);
 
-  if(route === "/addNumbers"){ // if route is addNumbers
-    var r = parseFloat(params.a) + parseFloat(params.b);
-    res.writeHead(200, {'Content-Type': 'text/plain'}); // send response header
-    res.end(r.toString()); // send response body
-  }
-  else{ // if route is not in any of the above
-    res.writeHead(200, {'Content-Type': 'text/plain'}); // send response header
-    res.end("unidentified route"); // send response body
-  }
+		var fib = function(n) {
+			if (n <= 1) {
+				return n;
+			} else {
+				return fib(n - 1) + fib(n - 2);
+			}
+		};
+		// var r = parseFloat(params.a) + parseFloat(params.b);
+		res.writeHead(200, {
+			'Content-Type': 'text/plain'
+		});
+
+		for (var i = 0; i < num; i++) {
+			var result = fib(i);
+			console.log(result);
+			res.end(result);
+		}
+		// res.end(r.toString());
+	} else {
+		res.writeHead(200, {
+			'Content-Type': 'text/plain'
+		});
+		res.end("unidentified route");
+	}
 };
 
-var server = http.createServer(callback); // create an http server
-server.listen(1337, "127.0.0.1"); // make server listen to port 1337
+var server = http.createServer(callback);
+server.listen(1337, "127.0.0.1");
 
 console.log('Server running at http://127.0.0.1:1337/');
