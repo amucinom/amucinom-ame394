@@ -43,6 +43,6 @@ var callback = function(req, res) {
 };
 
 var server = http.createServer(callback);
-server.listen(1337, "127.0.0.1");
+server.listen(3942, "127.0.0.1");
 
-console.log('Server running at http://127.0.0.1:1337/');
+console.log('Server running at http://localhost:1337/');
