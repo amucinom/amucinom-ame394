@@ -30,8 +30,8 @@ var callback = function(req, res) {
 
 		for (var i = 0; i < num; i++) {
 			var result = fib(i);
-			console.log(result);
-			res.end(result);
+			console.log(result.toString());
+			res.end(num.toString());
 		}
 		// res.end(r.toString());
 	} else {
