@@ -30,9 +30,12 @@ var callback = function(req, res) {
 
 		for (var i = 0; i < num; i++) {
 			var result = fib(i);
+			var resultToHTML = fib(i) + '\n';
 			console.log(result.toString());
-			res.end(num.toString());
+			// document.getElementsByTagName('body').innerHTML = result;
+			res.write(resultToHTML.toString());
 		}
+		res.end();
 		// res.end(r.toString());
 	} else {
 		res.writeHead(200, {
@@ -45,4 +48,4 @@ var callback = function(req, res) {
 var server = http.createServer(callback);
 server.listen(3942, "127.0.0.1");
 
-console.log('Server running at http://localhost:1337/');
+console.log('Server running at http://localhost:3942/');
